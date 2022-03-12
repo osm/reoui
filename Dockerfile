@@ -15,4 +15,5 @@ RUN go install -v ./...
 
 FROM alpine:3.15.0
 COPY --from=1 /go/bin/reoui /usr/bin
+COPY --from=1 /go/src/app/etc/reoui.yaml /etc/reoui/reoui.yaml
 ENTRYPOINT ["reoui"]
