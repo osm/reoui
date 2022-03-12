@@ -1,0 +1,29 @@
+schema:
+  - graphql/*.graphql
+
+exec:
+  filename: graphql/generated/generated.go
+  package: generated
+
+model:
+  filename: graphql/model/models_gen.go
+  package: model
+
+resolver:
+  layout: follow-schema
+  dir: graphql
+  package: graphql
+  filename_template: resolvers.go
+
+autobind:
+  - "github.com/osm/reoui/graphql/model"
+
+models:
+  ID:
+    model: github.com/99designs/gqlgen/graphql.ID
+
+  Int:
+    model: github.com/99designs/gqlgen/graphql.Int64
+
+  Date:
+    model: model.Date

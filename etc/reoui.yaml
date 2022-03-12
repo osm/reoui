@@ -1,0 +1,25 @@
+# Port to listen on
+port: 4000
+
+# Directory to read/write video files to
+data_dir: /var/lib/reoui
+
+# Interval for how often the video file syncer should run.
+# Set to 0s to disable the sync.
+# If disabled but you still want to utilize the video archive you need to
+# enable the FTP sync on the camera and point the directory to data_dir.
+sync_interval: 1m
+
+# When set to 0s, files will be kept forever, otherwise files older than the
+# specified interval will be deleted.
+clean_files_interval: 72h
+
+# Array of configured cameras. Make sure to use a unique name for each camera,
+# there is however no sanity check for this in the code, so use your best
+# judgement.
+cameras:
+  - name: cam-01
+    address: http://192.168.0.101
+    username: username
+    password: top_secret_password
+    low_stream_quality: false

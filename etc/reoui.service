@@ -1,0 +1,13 @@
+[Unit]
+Description=reoui
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/usr/local/bin/reoui -config /etc/reoui.yaml
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

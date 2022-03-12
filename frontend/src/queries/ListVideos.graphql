@@ -1,0 +1,8 @@
+query ListVideos($date: Date) {
+  videos(date: $date) {
+    id
+    cameraName
+    date
+    duration
+  }
+}

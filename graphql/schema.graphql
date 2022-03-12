@@ -1,0 +1,19 @@
+scalar Time
+scalar Date
+
+type Camera {
+  id: ID!
+  name: String!
+}
+
+type Video {
+  id: ID!
+  cameraName: String!
+  date: Time!
+  duration: Int!
+}
+
+type Query {
+  cameras: [Camera]
+  videos(date: Date): [Video]
+}

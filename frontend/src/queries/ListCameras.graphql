@@ -1,0 +1,6 @@
+query ListCameras {
+  cameras {
+    id
+    name
+  }
+}
