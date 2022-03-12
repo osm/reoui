@@ -27,3 +27,18 @@ $ docker run \
 	-v /your/config/dir:/etc/reoui \
 	reoui:latest -config /etc/reoui/reoui.yaml
 ```
+
+## Configuration in environment
+
+```sh
+$ export REOUI_PORT=4000
+$ export REOUI_DATA_DIR=/tmp/reoui
+$ export REOUI_SYNC_INTERVAL=1m
+$ export REOUI_CLEAN_FILES_INTERVAL=72h
+$ export REOUI_CAMERA_0_NAME=cam-from-env
+$ export REOUI_CAMERA_0_ADDRESS=http://192.168.0.101
+$ export REOUI_CAMERA_0_USERNAME=username
+$ export REOUI_CAMERA_0_PASSWORD=top_secret_password
+$ export REOUI_CAMERA_0_LOW_STREAM_QUALITY=true
+$ reoui
+```

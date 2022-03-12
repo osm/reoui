@@ -24,11 +24,6 @@ var frontendFS embed.FS
 func main() {
 	configPath := flag.String("config", "", "Config path")
 	flen.Parse()
-
-	if *configPath == "" {
-		fmt.Printf("-config is required\n")
-		os.Exit(1)
-	}
 	cfg, err := config.NewConfig(*configPath)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
@@ -36,15 +31,15 @@ func main() {
 
 	}
 	if cfg.Port == "" {
-		fmt.Printf("error: no port in %s\n", *configPath)
+		fmt.Printf("error: no port defined\n")
 		os.Exit(1)
 	}
 	if cfg.DataDir == "" {
-		fmt.Printf("error: no data_dir in %s\n", *configPath)
+		fmt.Printf("error: no data_dir defined\n")
 		os.Exit(1)
 	}
 	if len(cfg.Cameras) == 0 {
-		fmt.Printf("error: no cameras defined in %s\n", *configPath)
+		fmt.Printf("error: no cameras defined\n")
 		os.Exit(1)
 	}
 
