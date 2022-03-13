@@ -8,11 +8,11 @@ data_dir: /var/lib/reoui
 # Set to 0s to disable the sync.
 # If disabled but you still want to utilize the video archive you need to
 # enable the FTP sync on the camera and point the directory to data_dir.
-sync_interval: 1m
+sync_interval: 0s
 
 # When set to 0s, files will be kept forever, otherwise files older than the
 # specified interval will be deleted.
-clean_files_interval: 72h
+clean_files_interval: 0s
 
 # Array of configured cameras. Make sure to use a unique name for each camera,
 # there is however no sanity check for this in the code, so use your best
