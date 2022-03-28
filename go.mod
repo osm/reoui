@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/99designs/gqlgen v0.17.1
+	github.com/alfg/mp4 v0.0.0-20210728035756-55ea58c08aeb
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/osm/flen v1.0.0
 	github.com/rs/cors v1.8.2

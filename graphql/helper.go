@@ -2,9 +2,12 @@ package graphql
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/alfg/mp4"
 )
 
 var re = regexp.MustCompile(`[0-9]{14}`)
@@ -29,12 +32,26 @@ func getCameraName(n string) string {
 	return strings.ReplaceAll(n[0:idx[0]-1], "_", " ")
 }
 
-func getDuration(n string) string {
-	dateIdx := re.FindStringIndex(n)
-	endingIdx := strings.LastIndex(n, ".")
+func getDuration(filePath string) time.Duration {
+	var dur time.Duration
 
-	if dateIdx[1] == endingIdx {
-		return ""
+	file, err := os.Open(filePath)
+	if err != nil {
+		return dur
 	}
-	return n[dateIdx[1]+1 : endingIdx]
+	defer file.Close()
+
+	info, err := file.Stat()
+	if err != nil {
+		return dur
+	}
+
+	mp4, err := mp4.OpenFromReader(file, info.Size())
+	if mp4.Moov == nil {
+		return dur
+	}
+
+	ms := int64(mp4.Moov.Mvhd.Duration)
+	dur = time.Duration(ms * 1000000)
+	return dur.Round(time.Second)
 }

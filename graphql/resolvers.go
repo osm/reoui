@@ -29,7 +29,8 @@ func (r *queryResolver) Videos(ctx context.Context, date *model.Date) ([]*model.
 		videoDate = string(*date)
 	}
 
-	files, err := ioutil.ReadDir(path.Join(r.dataDir, videoDate[0:4], videoDate[5:7], videoDate[8:10]))
+	filePath := path.Join(r.dataDir, videoDate[0:4], videoDate[5:7], videoDate[8:10])
+	files, err := ioutil.ReadDir(filePath)
 	if err != nil {
 		return nil, nil
 	}
@@ -42,25 +43,13 @@ func (r *queryResolver) Videos(ctx context.Context, date *model.Date) ([]*model.
 			continue
 		}
 
-		durStr := getDuration(n)
-		if durStr == "" {
-			// File, without duration, probably a file that is synced with
-			// the built-in FTP.
-			vids = append(vids, &model.Video{
-				ID:         n,
-				CameraName: getCameraName(n),
-				Date:       getTime(n),
-			})
-		} else {
-			dur, _ := time.ParseDuration(durStr)
-			vids = append(vids, &model.Video{
-				ID:         n,
-				CameraName: getCameraName(n),
-				Date:       getTime(n),
-				Duration:   int64(dur / time.Second),
-			})
+		vids = append(vids, &model.Video{
+			ID:         n,
+			CameraName: getCameraName(n),
+			Date:       getTime(n),
+			Duration:   int64(getDuration(path.Join(filePath, n)) / time.Second),
+		})
 
-		}
 	}
 
 	var ret []*model.Video
