@@ -27,7 +27,7 @@ func postRequest(url string, payload *bytes.Buffer) (*Response, error) {
 
 	var ret []Response
 	if err := json.Unmarshal(respBody, &ret); err != nil {
-		return nil, fmt.Errorf("unable to unmarshal json, %v, raw data: %v", err, respBody)
+		return nil, fmt.Errorf("unable to unmarshal json, %v, raw data: %v", err, string(respBody))
 	}
 
 	if len(ret) != 1 {
