@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -53,33 +52,22 @@ func (s *sync) Run() {
 					continue
 				}
 
-				filenameStart := fmt.Sprintf("%s_%s%s%s%s", cameraName, year, month, day, time)
-				fileMatch, err := filepath.Glob(
-					path.Join(dir, fmt.Sprintf("%s_*.mp4", filenameStart)),
+				filePath := path.Join(
+					dir,
+					fmt.Sprintf("%s_%s%s%s%s.mp4", cameraName, year, month, day, time),
 				)
-				if err != nil {
-					log.Printf("sync glob: %v\n", err)
-					continue
-				}
-				if len(fileMatch) > 1 {
-					log.Printf("sync glob, too many files matches: %v\n", fileMatch)
-					continue
-				}
-
-				filename := fmt.Sprintf("%s_%s.mp4", filenameStart, f.Duration)
-				if len(fileMatch) == 1 {
-					existingFile, _ := os.Stat(fileMatch[0])
+				if existingFile, err := os.Stat(filePath); err == nil {
 					size := existingFile.Size()
 
 					if size == int64(f.Size) {
 						continue
 					} else if int64(f.Size) > size {
-						os.Remove(fileMatch[0])
+						os.Remove(filePath)
 					}
 				}
 
-				filePath := path.Join(dir, filename)
 				file, err := os.Create(filePath)
+				defer file.Close()
 				if err != nil {
 					log.Printf("create file: %v\n", err)
 					continue
